@@ -9,15 +9,7 @@ import * as PIXI from "pixi.js";
 import _ from "lodash";
 import { DateTime } from "luxon";
 const startTime = DateTime.local();
-$.fancybox.open({
-  src  : 'https://google.com',
-  type : 'iframe',
-  opts : {
-    afterShow : function( instance, current ) {
-      console.info( 'done!' );
-    }
-  }
-});
+
 // The application will create a renderer using WebGL, if possible,
 // with a fallback to a canvas render. It will also setup the ticker
 // and the root stage PIXI.Container
@@ -51,6 +43,7 @@ let protestInfluence = 0;
 let burnValue = 198;
 let burnValueMax = 198;
 let pauseState = false;
+let endState = false;
 let inWater = false;
 const maxSpawnedPosters = 50;
 const waterZoneSize = playerWidth * 4;
@@ -282,7 +275,16 @@ app.loader
       poster.interactive = true;
       poster.buttonMode = true;
       poster.on('click', function () {
-        debugger;
+        const articles = [
+            'https://www.theverge.com/2019/10/31/20940711/blizzard-hong-kong-controversy-gaming-protest-news-updates',
+            'https://www.theverge.com/2019/10/11/20908325/league-of-legends-riot-games-epic-games-blizzard-hearthstone-hong-kong-protests',
+            'https://www.theguardian.com/games/2019/nov/08/blizzard-blizzcon-protest-hong-kong-world-of-warcraft',
+            'https://www.theverge.com/2019/10/29/20939236/blizzard-china-hong-kong-protests-mitsubishi-hearthstone-ban-sponsorship-pulled',
+            'https://arstechnica.com/gaming/2019/11/blizzard-wont-reverse-hearthstone-pros-hong-kong-protest-suspension/',
+            'https://thenextweb.com/asia/2019/10/12/riot-games-hong-kong-esports-controversy/',
+
+        ];
+        window.open(articles[_.random(articles.length -1)], '_blank')
       });
       // poster.rotation = 135;
       posters.push(poster);
@@ -363,13 +365,13 @@ app.loader
       if (elapsedTime > 10) {
         posterSpawnInterval = 5000;
         if (elapsedTime > 30) {
-          posterSpawnInterval = 4000;
-        }
-        if (elapsedTime > 50) {
           posterSpawnInterval = 3000;
         }
+        if (elapsedTime > 50) {
+          posterSpawnInterval = 1000;
+        }
         if (elapsedTime > 100) {
-          posterSpawnInterval = 2000;
+          posterSpawnInterval = 400;
         }
       }
 
